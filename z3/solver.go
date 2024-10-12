@@ -57,6 +57,33 @@ func (s *Solver) Assert(val Bool) {
 	runtime.KeepAlive(val)
 }
 
+func (s *Solver) AssertAndTrack(val Bool, p Bool) {
+	s.ctx.do(func() {
+		C.Z3_solver_assert_and_track(s.ctx.c, s.c, val.c, p.c)
+	})
+	runtime.KeepAlive(s)
+	runtime.KeepAlive(val)
+}
+
+func (s *Solver) GetUnsatCore() []Bool {
+	var unsatCoreVector C.Z3_ast_vector
+	var n C.uint
+	s.ctx.do(func() {
+		unsatCoreVector = C.Z3_solver_get_unsat_core(s.ctx.c, s.c)
+		C.Z3_ast_vector_inc_ref(s.ctx.c, unsatCoreVector)
+		n = C.Z3_ast_vector_size(s.ctx.c, unsatCoreVector)
+	})
+	s.ctx.do(func() { C.Z3_ast_vector_dec_ref(s.ctx.c, unsatCoreVector) })
+	unsatCore := make([]Bool, n)
+	for i := C.uint(0); i < n; i++ {
+		unsatCore[i] = Bool(wrapValue(s.ctx, func() C.Z3_ast {
+			return C.Z3_ast_vector_get(s.ctx.c, unsatCoreVector, i)
+		}))
+	}
+	runtime.KeepAlive(s)
+	return unsatCore
+}
+
 // Push saves the current state of the Solver so it can be restored
 // with Pop.
 func (s *Solver) Push() {
