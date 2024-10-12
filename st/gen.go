@@ -2,6 +2,7 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
+//go:build ignore
 // +build ignore
 
 package main
@@ -16,7 +17,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/aclements/go-z3/internal/ops"
+	"github.com/vldF/go-z3/internal/ops"
 )
 
 func main() {
@@ -35,7 +36,7 @@ package st
 import (
 	"fmt"
 	"math/big"
-	"github.com/aclements/go-z3/z3"
+	"github.com/vldF/go-z3/z3"
 )
 
 `)

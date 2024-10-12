@@ -11,7 +11,7 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/aclements/go-z3/z3"
+	"github.com/vldF/go-z3/z3"
 )
 
 // Test that concrete and symbolic operations are equivalent.

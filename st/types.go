@@ -4,7 +4,7 @@ package st
 
 import (
 	"fmt"
-	"github.com/aclements/go-z3/z3"
+	"github.com/vldF/go-z3/z3"
 	"math/big"
 )
 
